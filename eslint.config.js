@@ -20,7 +20,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['src/shared/ui/**/*.tsx'],
+    files: ['src/shared/ui/**/*.tsx', 'tests/**/*.tsx', 'src/**/*.test.tsx'],
     rules: {
       'react-refresh/only-export-components': 'off',
     },

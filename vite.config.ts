@@ -14,12 +14,18 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, './src'),
+      '@tests': path.resolve(import.meta.dirname, './tests'),
     },
   },
   test: {
     environment: 'jsdom',
     globals: true,
-    setupFiles: ['./src/shared/config/tests/setup.ts'],
+    setupFiles: ['./tests/setup.ts'],
     css: false,
+    coverage: {
+      provider: 'v8',
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: ['src/main.tsx', 'src/shared/ui/**', 'src/**/index.ts', 'src/**/types.ts'],
+    },
   },
 })
