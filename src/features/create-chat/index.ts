@@ -1,1 +1,1 @@
-export { CreateChatForm } from './ui/CreateChatForm'
+export { CreateChatDialog } from './ui/CreateChatDialog'

@@ -8,9 +8,19 @@ export function ChatPage() {
   useReceiveNotifications()
 
   return (
-    <main className="flex h-svh">
+    <main className="flex h-svh overflow-hidden">
       <ChatSidebar />
-      {chatId && <ChatWindow chatId={chatId} />}
+      {chatId ? <ChatWindow key={chatId} chatId={chatId} /> : <EmptyChatWindow />}
     </main>
+  )
+}
+
+function EmptyChatWindow() {
+  return (
+    <section className="hidden flex-1 items-center justify-center bg-(image:--chat-ground) md:flex">
+      <p className="rounded-full bg-black/20 px-3 py-1 text-sm text-white">
+        Выберите чат или создайте новый
+      </p>
+    </section>
   )
 }

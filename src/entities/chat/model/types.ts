@@ -6,3 +6,10 @@ export interface Chat {
   lastMessageText?: string
   lastMessageAt?: number
 }
+
+export interface ChatPreviewUpdate {
+  chatId: string
+  text: string
+  timestamp: number
+  isUnread: boolean
+}

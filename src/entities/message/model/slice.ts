@@ -1,8 +1,15 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import type { Message } from './types'
+import type { Message, MessageStatus } from './types'
 
 interface MessageState {
   byChatId: Record<string, Message[]>
+}
+
+interface MessageStatusUpdate {
+  chatId: string
+  messageId: string
+  status: MessageStatus
+  newMessageId?: string
 }
 
 const initialState: MessageState = {
@@ -20,11 +27,22 @@ export const messageSlice = createSlice({
       const messages = (state.byChatId[message.chatId] ??= [])
       if (!messages.some(({ id }) => id === message.id)) messages.push(message)
     },
+    updateMessageStatus(state, action: PayloadAction<MessageStatusUpdate>) {
+      const { chatId, messageId, status, newMessageId } = action.payload
+      const message = state.byChatId[chatId]?.find(({ id }) => id === messageId)
+      if (!message) return
+
+      message.status = status
+      if (newMessageId) message.id = newMessageId
+    },
+    resetMessages() {
+      return initialState
+    },
   },
   selectors: {
     selectMessagesByChatId: (state, chatId: string) => state.byChatId[chatId] ?? emptyMessages,
   },
 })
 
-export const { addMessage } = messageSlice.actions
+export const { addMessage, updateMessageStatus, resetMessages } = messageSlice.actions
 export const { selectMessagesByChatId } = messageSlice.selectors
