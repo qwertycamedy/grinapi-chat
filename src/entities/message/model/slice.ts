@@ -35,6 +35,14 @@ export const messageSlice = createSlice({
       message.status = status
       if (newMessageId) message.id = newMessageId
     },
+    failPendingMessages(state) {
+      Object.values(state.byChatId)
+        .flat()
+        .filter((message) => message.status === 'pending')
+        .forEach((message) => {
+          message.status = 'failed'
+        })
+    },
     resetMessages() {
       return initialState
     },
@@ -44,5 +52,6 @@ export const messageSlice = createSlice({
   },
 })
 
-export const { addMessage, updateMessageStatus, resetMessages } = messageSlice.actions
+export const { addMessage, updateMessageStatus, failPendingMessages, resetMessages } =
+  messageSlice.actions
 export const { selectMessagesByChatId } = messageSlice.selectors

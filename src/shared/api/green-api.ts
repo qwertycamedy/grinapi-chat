@@ -4,5 +4,6 @@ import { axiosBaseQuery } from './axios-base-query'
 export const greenApi = createApi({
   reducerPath: 'greenApi',
   baseQuery: axiosBaseQuery,
+  tagTypes: ['Settings'],
   endpoints: () => ({}),
 })

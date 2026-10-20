@@ -1,3 +1,5 @@
 export { greenApi } from './green-api'
 export { axiosInstance } from './axios-instance'
+export { getApiUrlByInstanceId } from './get-api-url'
+export { getErrorMessage, isGreenApiError, isUnauthorizedError } from './get-error-message'
 export type { GreenApiCredentials, GreenApiError, GreenApiRequest } from './types'

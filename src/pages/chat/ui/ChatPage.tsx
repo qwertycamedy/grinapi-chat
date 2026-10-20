@@ -1,11 +1,20 @@
 import { useParams } from 'react-router-dom'
+import { toast } from 'sonner'
 import { ChatSidebar } from '@/widgets/chat-sidebar'
 import { ChatWindow } from '@/widgets/chat-window'
+import { useLogout } from '@/features/logout'
 import { useReceiveNotifications } from '@/features/receive-notifications'
 
 export function ChatPage() {
   const { chatId } = useParams()
-  useReceiveNotifications()
+  const { logoutUser } = useLogout()
+
+  useReceiveNotifications({
+    onUnauthorized: () => {
+      toast.error('Данные инстанса больше не действительны, войдите заново')
+      logoutUser()
+    },
+  })
 
   return (
     <main className="flex h-svh overflow-hidden">

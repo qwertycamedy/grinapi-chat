@@ -16,7 +16,7 @@ import { Label } from '@/shared/ui/label'
 import { useCreateChat } from '../model/useCreateChat'
 
 export function CreateChatDialog() {
-  const { createChat } = useCreateChat()
+  const { createChat, isLoading } = useCreateChat()
   const [isOpen, setIsOpen] = useState(false)
   const [phone, setPhone] = useState('')
   const [name, setName] = useState('')
@@ -33,16 +33,18 @@ export function CreateChatDialog() {
     setError('')
   }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     if (!isValidPhone(phone)) {
-      setError('Введите номер РФ (+7) или РБ (+375)')
+      setError('Введите номер в международном формате, например +7 999 123-45-67')
       return
     }
 
-    createChat(phone, name)
-    changeOpen(false)
+    const createError = await createChat(phone, name)
+
+    if (createError) setError(createError)
+    else changeOpen(false)
   }
 
   return (
@@ -56,7 +58,7 @@ export function CreateChatDialog() {
         <form className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
           <DialogHeader>
             <DialogTitle>Новый чат</DialogTitle>
-            <DialogDescription>Введите номер телефона получателя</DialogDescription>
+            <DialogDescription>Введите номер телефона получателя в Telegram</DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="phone">Номер телефона</Label>
@@ -92,8 +94,8 @@ export function CreateChatDialog() {
             />
           </div>
           <DialogFooter>
-            <Button type="submit" className="h-11 w-full rounded-xl">
-              Создать чат
+            <Button type="submit" className="h-11 w-full rounded-xl" disabled={isLoading}>
+              {isLoading ? 'Ищем аккаунт…' : 'Создать чат'}
             </Button>
           </DialogFooter>
         </form>

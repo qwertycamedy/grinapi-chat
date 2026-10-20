@@ -1,5 +1,6 @@
 import { NavLink, useParams } from 'react-router-dom'
 import { ChatListItem, selectChats } from '@/entities/chat'
+import { NotificationSettingsBanner } from '@/features/configure-notifications'
 import { CreateChatDialog } from '@/features/create-chat'
 import { LogoutButton } from '@/features/logout'
 import { ThemeToggle } from '@/features/toggle-theme'
@@ -24,6 +25,7 @@ export function ChatSidebar() {
         <ThemeToggle />
         <LogoutButton />
       </header>
+      <NotificationSettingsBanner />
       {chats.length === 0 ? (
         <div className="flex flex-1 flex-col items-center justify-center gap-2 px-8 text-center text-muted-foreground">
           <p className="font-medium text-foreground">Пока нет чатов</p>

@@ -12,10 +12,11 @@ export interface GreenApiRequest {
   pathParam?: string | number
   data?: unknown
   params?: Record<string, unknown>
+  timeout?: number
   credentials?: GreenApiCredentials
 }
 
 export interface GreenApiError {
-  status: number | 'NETWORK_ERROR' | 'NO_CREDENTIALS'
+  status: number | 'NETWORK_ERROR' | 'TIMEOUT_ERROR' | 'NO_CREDENTIALS'
   message: string
 }

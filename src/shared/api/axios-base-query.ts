@@ -5,7 +5,7 @@ import { buildGreenApiUrl } from './build-green-api-url'
 import type { GreenApiError, GreenApiRequest } from './types'
 
 export const axiosBaseQuery: BaseQueryFn<GreenApiRequest, unknown, GreenApiError> = async (
-  { apiMethod, httpMethod = 'GET', pathParam, data, params, credentials },
+  { apiMethod, httpMethod = 'GET', pathParam, data, params, timeout, credentials },
   { getState, signal },
 ) => {
   const currentCredentials = credentials ?? (getState() as RootState).session.credentials
@@ -20,6 +20,7 @@ export const axiosBaseQuery: BaseQueryFn<GreenApiRequest, unknown, GreenApiError
       method: httpMethod,
       data,
       params,
+      timeout,
       signal,
     })
 
@@ -32,6 +33,10 @@ export const axiosBaseQuery: BaseQueryFn<GreenApiRequest, unknown, GreenApiError
 function toGreenApiError(error: unknown): GreenApiError {
   if (isAxiosError(error) && error.response) {
     return { status: error.response.status, message: error.message }
+  }
+
+  if (isAxiosError(error) && error.code === 'ECONNABORTED') {
+    return { status: 'TIMEOUT_ERROR', message: error.message }
   }
 
   return { status: 'NETWORK_ERROR', message: error instanceof Error ? error.message : 'Network error' }

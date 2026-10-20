@@ -2,7 +2,7 @@ import { useState, type FormEvent, type KeyboardEvent } from 'react'
 import { SendHorizontal } from 'lucide-react'
 import { Button } from '@/shared/ui/button'
 import { Textarea } from '@/shared/ui/textarea'
-import { MAX_MESSAGE_LENGTH } from '../model/constants'
+import { MAX_MESSAGE_LENGTH } from '@/shared/config'
 import { useSendMessage } from '../model/useSendMessage'
 
 interface SendMessageFormProps {
